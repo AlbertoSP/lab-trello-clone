@@ -11,7 +11,9 @@ exports.getLists = function(req, res, next) {
 
         return new Promise((resolve, reject) => {
             listModel.populate(lists, 'cards')
+            
                 .then((_lists) => {
+
                     _.forEach(lists, (list) => {
                         list.cards = _.orderBy(list.cards, ['position','title','_id']);
                     });
@@ -25,8 +27,10 @@ exports.getLists = function(req, res, next) {
 exports.createList = function(req, res, next) {
 	var item = new listModel({
 	    title: req.body.title,
-      position: req.body.position
-	});
+      position: req.body.position,
+
+      
+    });
 
 	Q.nfcall(item.save.bind(item))
         .then(function () {
@@ -34,7 +38,7 @@ exports.createList = function(req, res, next) {
                 _id: item._id,
                 title: item.title,
                 position: item.position,
-                cards: []
+       
             });
         });
 };
@@ -61,5 +65,13 @@ exports.editList = function(req, res, next) {
 };
 
 exports.removeList = function (req, res) {
-  // Lesson 2: Implement remove list form the database
+    listModel
+    .findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+            res.json({ message: 'impossible to remove the list', error: err });
+        };
+
+        res.json({ message: 'list removed successfully' });
+    });
+ 
 };

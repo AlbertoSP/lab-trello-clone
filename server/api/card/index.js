@@ -1,10 +1,11 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./card.controller');
+const express = require('express');
+const controller = require('./card.controller');
+const Card = require ('./card.model');
 
-var router = express.Router();
 
+const router = express.Router();
 router.post('/', controller.createCard);
 router.put('/:id', controller.editCard);
 router.put('/:id/transfer', controller.transferCard);

@@ -6,7 +6,14 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 // Lesson 1: Require mongoose
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
+const {dbURL} = require('./config');
 // Lesson 2: Require dotenv configuration
+const dotenv = require('dotenv')
+
+require('dotenv').config()
 
 const app = express();
 
@@ -21,6 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Mongoose configuration
 // Lesson 1: Mongoose configuration
+mongoose.connect(dbURL)
+       .then(() => console.log(`Connected to ${dbURL}`))
+       .catch(e => console.log(e))
 // Lesson 2: Use environment variable for the MONGODB_URI
 
 app.set('view engine', 'jade');

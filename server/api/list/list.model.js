@@ -4,7 +4,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const listSchema = new mongoose.Schema({
-  // Lesson 2: Implement the List Model
+  
+  cards: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Card',
+    require: true
+  }]
+
 });
 
 module.exports = mongoose.model('List', listSchema);
